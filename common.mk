@@ -17,13 +17,14 @@ PARENT_DIR := $(shell dirname $(shell pwd))
 BENCH_LIB := $(PARENT_DIR)/benchmark-lib
 
 # Install directories
-LFI_INSTALL := $(BENCH_LIB)/aarch64-lfi-clang/usr
-STORES_INSTALL := $(BENCH_LIB)/aarch64-lfi-stores-clang/usr
-NATIVE_INSTALL := $(BENCH_LIB)/aarch64-native-clang/usr
+LFI_INSTALL := $(BENCH_LIB)/x86_64-lfi-clang/usr
+# STORES_INSTALL := $(BENCH_LIB)/aarch64-lfi-stores-clang/usr
+# NATIVE_INSTALL := $(BENCH_LIB)/aarch64-native-clang/usr
 
 # Toolchain paths
 TOOLCHAIN_DIR := $(PARENT_DIR)/toolchains
-LFI_TOOLCHAIN := $(TOOLCHAIN_DIR)/aarch64-lfi.cmake
+# LFI_TOOLCHAIN := $(TOOLCHAIN_DIR)/aarch64-lfi.cmake
+LFI_TOOLCHAIN := $(TOOLCHAIN_DIR)/x86_64-lfi.cmake
 STORES_TOOLCHAIN := $(TOOLCHAIN_DIR)/aarch64-lfi-stores.cmake
 NATIVE_TOOLCHAIN := $(TOOLCHAIN_DIR)/aarch64-native.cmake
 HOST_TOOLCHAIN := $(TOOLCHAIN_DIR)/host.cmake
@@ -32,12 +33,18 @@ STORES_MESON := $(TOOLCHAIN_DIR)/aarch64-lfi-stores.txt
 NATIVE_MESON := $(TOOLCHAIN_DIR)/aarch64-native.txt
 
 #LFI tools
-LFI_CC       := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang
-LFI_CXX      := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang++
-LFI_AS       := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang
-LFI_AR       := $(LFI_ROOT)/aarch64-lfi-clang/bin/llvm-ar
-LFI_STRIP    := $(LFI_ROOT)/aarch64-lfi-clang/bin/llvm-strip
-LFI_BIND     := $(LFI_ROOT)/lfi/bin/lfi-bind
+LFI_CC       := $(LFI_ROOT)/x86_64-lfi-clang/bin/clang
+LFI_CXX      := $(LFI_ROOT)/x86_64-lfi-clang/bin/clang++
+LFI_AS       := $(LFI_ROOT)/x86_64-lfi-clang/bin/clang
+LFI_AR       := $(LFI_ROOT)/x86_64-lfi-clang/bin/llvm-ar
+LFI_STRIP    := $(LFI_ROOT)/x86_64-lfi-clang/bin/llvm-strip
+LFI_BIND     := $(LFI_ROOT)/x86_64-lfi-tools/bin/lfi-bind
+# LFI_CC       := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang
+# LFI_CXX      := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang++
+# LFI_AS       := $(LFI_ROOT)/aarch64-lfi-clang/bin/clang
+# LFI_AR       := $(LFI_ROOT)/aarch64-lfi-clang/bin/llvm-ar
+# LFI_STRIP    := $(LFI_ROOT)/aarch64-lfi-clang/bin/llvm-strip
+# LFI_BIND     := $(LFI_ROOT)/lfi/bin/lfi-bind
 
 # Standard build directories
 BUILD_DIRS = build-lfi build-lfi-stores build-native
