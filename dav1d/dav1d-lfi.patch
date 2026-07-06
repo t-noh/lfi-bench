@@ -1,0 +1,63 @@
+diff --git a/meson.build b/meson.build
+index 90555e4c..28e977b1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -570,6 +570,11 @@ if is_asm_enabled and host_machine.cpu_family().startswith('x86')
+     else
+         nasm_format += '32'
+     endif
++    if get_option('pass_lfi')
++      lfi_flag = '-lfi'
++    else
++      lfi_flag = ''
++    endif
+ 
+     nasm_gen = generator(nasm,
+         output: '@BASENAME@.obj',
+@@ -579,6 +584,7 @@ if is_asm_enabled and host_machine.cpu_family().startswith('x86')
+             '-I', '@0@/src/'.format(dav1d_src_root),
+             '-I', '@0@/'.format(meson.current_build_dir()),
+             '-MQ', '@OUTPUT@', '-MF', '@DEPFILE@',
++            lfi_flag,
+             '@EXTRA_ARGS@',
+             '@INPUT@',
+             '-o', '@OUTPUT@'
+diff --git a/meson_options.txt b/meson_options.txt
+index c04deffd..12a14b90 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -10,6 +10,11 @@ option('enable_asm',
+     value: true,
+     description: 'Build asm files, if available')
+ 
++option('pass_lfi',
++    type: 'boolean',
++    value: false,
++    description: 'Nasm -lfi')
++
+ option('enable_tools',
+     type: 'boolean',
+     value: true,
+diff --git a/tests/meson.build b/tests/meson.build
+index 40c6af8b..2ea6be23 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -89,6 +89,7 @@ if is_asm_enabled and checkasm_dependency.found()
+             checkasm_dependency,
+             ],
+         c_args: checkasm_args,
++        link_args: ['-static-pie'],
+         )
+ 
+     test('checkasm', checkasm, suite: 'checkasm', timeout: 180)
+diff --git a/tools/meson.build b/tools/meson.build
+index 2d22e2e6..eb897443 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -117,5 +117,6 @@ dav1d = executable('dav1d',
+         rt_dependency,
+         libm_dependency,
+         ],
++    link_args: ['-static-pie'],
+     install : true,
+ )

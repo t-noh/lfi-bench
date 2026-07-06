@@ -10,7 +10,8 @@ TARGET_DIR := dav1d
 all: bench
 
 $(TARGET_DIR):
-	git clone https://github.com/zyedidia/dav1d -b lfi
+	git clone https://github.com/videolan/dav1d.git
+	cd $(TARGET_DIR) && git checkout 77ef66354d76a3c8aa4b11cde8093294fce23b0f && patch -p1 < ../dav1d-lfi.patch
 
 dav1d-benchdata:
 	wget https://github.com/zyedidia/lfi-bench/releases/download/benchdata/dav1d-benchdata.tar.gz
