@@ -11,3 +11,4 @@ add_executable(decode-benchmark decode-benchmark.c)
 
 # Link against libjpeg-turbo
 target_link_libraries(decode-benchmark turbojpeg jpeg mimalloc)
+target_link_options(decode-benchmark PRIVATE -static-pie)
