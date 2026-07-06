@@ -10,23 +10,28 @@ TARGET_DIR := libjpeg-turbo
 all: bench
 
 $(TARGET_DIR):
-	git clone git@github.com:libjpeg-turbo/libjpeg-turbo.git
+	git clone https://github.com/libjpeg-turbo/libjpeg-turbo.git
 
 # Override install prefix format for libjpeg-turbo
 CMAKE_INSTALL_PREFIX_LFI = -DCMAKE_INSTALL_PREFIX=$(LFI_INSTALL)
-CMAKE_INSTALL_PREFIX_STORES = -DCMAKE_INSTALL_PREFIX=$(STORES_INSTALL)
-CMAKE_INSTALL_PREFIX_NATIVE = -DCMAKE_INSTALL_PREFIX=$(NATIVE_INSTALL)
+# CMAKE_INSTALL_PREFIX_STORES = -DCMAKE_INSTALL_PREFIX=$(STORES_INSTALL)
+# CMAKE_INSTALL_PREFIX_NATIVE = -DCMAKE_INSTALL_PREFIX=$(NATIVE_INSTALL)
+# CMAKE_BUILD_TYPE = Debug
 
 # Include common CMake build targets
 include ../targets.mk
 
-build-benchmarks: build-lfi build-lfi-stores build-native
+build-benchmarks: build-lfi build-lfi-nasm build-native build-native-nasm
 	cmake -S benchmark -B build-lfi-bench -DCMAKE_TOOLCHAIN_FILE=$(LFI_TOOLCHAIN) -DLIBJPEG_DIR=../build-lfi
-	cmake -S benchmark -B build-lfi-stores-bench -DCMAKE_TOOLCHAIN_FILE=$(STORES_TOOLCHAIN) -DLIBJPEG_DIR=../build-lfi-stores
+	cmake -S benchmark -B build-lfi-nasm-bench -DCMAKE_TOOLCHAIN_FILE=$(LFI_TOOLCHAIN) -DLIBJPEG_DIR=../build-lfi-nasm
+	# cmake -S benchmark -B build-lfi-stores-bench -DCMAKE_TOOLCHAIN_FILE=$(STORES_TOOLCHAIN) -DLIBJPEG_DIR=../build-lfi-stores
 	cmake -S benchmark -B build-native-bench -DCMAKE_TOOLCHAIN_FILE=$(NATIVE_TOOLCHAIN) -DLIBJPEG_DIR=../build-native
+	cmake -S benchmark -B build-native-nasm-bench -DCMAKE_TOOLCHAIN_FILE=$(NATIVE_TOOLCHAIN) -DLIBJPEG_DIR=../build-native-nasm
 	cmake --build build-lfi-bench --verbose
-	cmake --build build-lfi-stores-bench --verbose
+	cmake --build build-lfi-nasm-bench --verbose
+	# cmake --build build-lfi-stores-bench --verbose
 	cmake --build build-native-bench --verbose
+	cmake --build build-native-nasm-bench --verbose
 	touch $@
 
 build-integrate: build-lfi
@@ -38,9 +43,9 @@ decode-bench: libjpeg-decode.csv
 
 # JPEG decode benchmark
 libjpeg-decode.csv: build-benchmarks
-	../hyperfine.py --name libjpeg-decode --cmd "./{BUILD_DIR}-bench/decode-benchmark 100" --targets "$(HYPERFINE_TARGETS)" --run-command-flags="-p" --runs $(RUNS) --warmup $(WARMUP) --setup="cat image.jpg test.jpeg > /dev/null"
+	../hyperfine.py --name libjpeg-decode --cmd "./{BUILD_DIR}-bench/decode-benchmark 100" --targets "LFI:$(LFIRUN):build-lfi LFI-NASM:$(LFIRUN):build-lfi-nasm Native::build-native Native-NASM::build-native-nasm" --run-command-flags="-p" --runs $(RUNS) --warmup $(WARMUP) --setup="cat image.jpg test.jpeg > /dev/null"
 
 clean:
 	rm -rf $(BUILD_DIRS) $(TARGET_DIR)
-	rm -rf build-lfi-bench build-lfi-stores-bench build-native-bench
+	rm -rf build-lfi-bench build-lfi-stores-bench build-native-bench build-lfi-nasm-bench build-native-nasm-bench
 	rm -f *.csv build-benchmarks
