@@ -1,0 +1,13 @@
+[binaries]
+c = '$LFI_ROOT/x86_64-lfi-clang/bin/clang'
+cpp = '$LFI_ROOT/x86_64-lfi-clang/bin/clang++'
+as = '$LFI_ROOT/x86_64-lfi-clang/bin/clang'
+ar = '$LFI_ROOT/x86_64-lfi-clang/bin/llvm-ar'
+strip = '$LFI_ROOT/x86_64-lfi-clang/bin/llvm-strip'
+nasm = '$NASM_LFI'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'
