@@ -2,6 +2,7 @@
 
 # Get the directory of this common.mk file
 COMMON_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+LFI_MESON_ENV := $(COMMON_DIR).env.txt
 
 # Load local environment variables if .env exists
 -include $(COMMON_DIR).env

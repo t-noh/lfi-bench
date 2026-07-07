@@ -1,10 +1,10 @@
 [binaries]
-c = '$NATIVE_ROOT/bin/clang'
-cpp = '$NATIVE_ROOT/bin/clang++'
-as = '$NATIVE_ROOT/bin/clang'
-ar = '$NATIVE_ROOT/bin/llvm-ar'
-strip = '$NATIVE_ROOT/bin/llvm-strip'
-nasm = '$NASM_NATIVE'
+c = native_root / 'bin/clang'
+cpp = native_root / 'bin/clang++'
+as = native_root / 'bin/clang'
+ar = native_root / 'bin/llvm-ar'
+strip = native_root / 'bin/llvm-strip'
+nasm = nasm_native
 
 [host_machine]
 system = 'linux'

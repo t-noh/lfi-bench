@@ -1,10 +1,10 @@
 [binaries]
-c = '$LFI_ROOT/x86_64-lfi-clang/bin/clang'
-cpp = '$LFI_ROOT/x86_64-lfi-clang/bin/clang++'
-as = '$LFI_ROOT/x86_64-lfi-clang/bin/clang'
-ar = '$LFI_ROOT/x86_64-lfi-clang/bin/llvm-ar'
-strip = '$LFI_ROOT/x86_64-lfi-clang/bin/llvm-strip'
-nasm = '$NASM_LFI'
+c = lfi_root / 'x86_64-lfi-clang/bin/clang'
+cpp = lfi_root / 'x86_64-lfi-clang/bin/clang++'
+as = lfi_root / 'x86_64-lfi-clang/bin/clang'
+ar = lfi_root / 'x86_64-lfi-clang/bin/llvm-ar'
+strip = lfi_root / 'x86_64-lfi-clang/bin/llvm-strip'
+nasm = nasm_lfi
 
 [host_machine]
 system = 'linux'

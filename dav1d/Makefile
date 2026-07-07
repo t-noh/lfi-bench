@@ -19,23 +19,23 @@ dav1d-benchdata:
 	rm -f dav1d-benchdata.tar.gz
 
 build-lfi: $(TARGET_DIR)
-	meson setup build-lfi $(TARGET_DIR) --cross-file $(LFI_MESON) -Denable_asm=false -Ddefault_library=static
+	meson setup build-lfi $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(LFI_MESON) -Denable_asm=false -Ddefault_library=static
 	ninja -C build-lfi
 
 build-lfi-nasm: $(TARGET_DIR)
-	meson setup build-lfi-nasm $(TARGET_DIR) --cross-file $(LFI_MESON) -Denable_asm=true -Ddefault_library=static -Dpass_lfi=true
+	meson setup build-lfi-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(LFI_MESON) -Denable_asm=true -Ddefault_library=static -Dpass_lfi=true
 	ninja -C build-lfi-nasm
 
 # build-lfi-stores: $(TARGET_DIR)
-# 	meson setup build-lfi-stores $(TARGET_DIR) --cross-file $(STORES_MESON) -Ddefault_library=static
+# 	meson setup build-lfi-stores $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(STORES_MESON) -Ddefault_library=static
 # 	ninja -C build-lfi-stores
 
 build-native: $(TARGET_DIR)
-	meson setup build-native $(TARGET_DIR) --cross-file $(NATIVE_MESON) -Denable_asm=false -Ddefault_library=static
+	meson setup build-native $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(NATIVE_MESON) -Denable_asm=false -Ddefault_library=static
 	ninja -C build-native
 
 build-native-nasm: $(TARGET_DIR)
-	meson setup build-native-nasm $(TARGET_DIR) --cross-file $(NATIVE_MESON) -Denable_asm=true -Ddefault_library=static
+	meson setup build-native-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(NATIVE_MESON) -Denable_asm=true -Ddefault_library=static
 	ninja -C build-native-nasm
 
 bench: dav1d.csv
