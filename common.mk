@@ -25,6 +25,9 @@ endif
 ifdef CMAKE_BUILD_TYPE
   export CMAKE_BUILD_TYPE
 endif
+ifdef LFI_RUN
+  export LFI_RUN
+endif
 
 # Detect host architecture if ARCH is not set
 ARCH ?= $(shell uname -m)
