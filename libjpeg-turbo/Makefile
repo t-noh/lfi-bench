@@ -43,7 +43,7 @@ decode-bench: libjpeg-decode.csv
 
 # JPEG decode benchmark
 libjpeg-decode.csv: build-benchmarks
-	../hyperfine.py --name libjpeg-decode --cmd "./{BUILD_DIR}-bench/decode-benchmark 100" --targets "LFI:$(LFIRUN):build-lfi LFI-NASM:$(LFIRUN):build-lfi-nasm Native::build-native Native-NASM::build-native-nasm" --run-command-flags="-p" --runs $(RUNS) --warmup $(WARMUP) --setup="cat image.jpg test.jpeg > /dev/null"
+	../hyperfine.py --name libjpeg-decode --cmd "./{BUILD_DIR}-bench/decode-benchmark 100" --targets "$(NASM_HYPERFINE_TARGETS)" --run-command-flags="-p" --runs $(RUNS) --warmup $(WARMUP) --setup="cat image.jpg test.jpeg > /dev/null"
 
 clean:
 	rm -rf $(BUILD_DIRS) $(TARGET_DIR)
