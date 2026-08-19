@@ -40,9 +40,11 @@ CONFIGS=(
     "Native C;JSIMD_FORCENONE;1;build-native-nasm/tjbench-static;false"
     "Native SSE2;JSIMD_FORCESSE2;1;build-native-nasm/tjbench-static;false"
     "Native AVX2;;;build-native-nasm/tjbench-static;false"
-    "LFI C;JSIMD_FORCENONE;1;build-lfi-nasm/tjbench-static;true"
-    "LFI SSE2;JSIMD_FORCESSE2;1;build-lfi-nasm/tjbench-static;true"
-    "LFI AVX2;;;build-lfi-nasm/tjbench-static;true"
+    "LFI C(naive);JSIMD_FORCENONE;1;build-lfi-nasm/tjbench-static;true"
+    "LFI SSE2(naive);JSIMD_FORCESSE2;1;build-lfi-nasm/tjbench-static;true"
+    "LFI AVX2(naive);;;build-lfi-nasm/tjbench-static;true"
+    "LFI SSE2(bolt);JSIMD_FORCESSE2;1;build-lfi-nasm-bolt/tjbench-static;true"
+    "LFI AVX2(bolt);;;build-lfi-nasm-bolt/tjbench-static;true"
 )
 
 QUALITY="95"

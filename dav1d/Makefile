@@ -23,7 +23,7 @@ build-lfi: $(TARGET_DIR)
 	ninja -C build-lfi
 
 build-lfi-nasm: $(TARGET_DIR)
-	meson setup build-lfi-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(LFI_MESON) -Denable_asm=true -Ddefault_library=static -Dpass_lfi=true
+	meson setup build-lfi-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(LFI_MESON) -Denable_asm=true -Ddefault_library=static -Dpass_lfi=true -Dtrim_dsp=false
 	ninja -C build-lfi-nasm
 
 # build-lfi-stores: $(TARGET_DIR)
@@ -35,7 +35,7 @@ build-native: $(TARGET_DIR)
 	ninja -C build-native
 
 build-native-nasm: $(TARGET_DIR)
-	meson setup build-native-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(NATIVE_MESON) -Denable_asm=true -Ddefault_library=static
+	meson setup build-native-nasm $(TARGET_DIR) --cross-file $(LFI_MESON_ENV) --cross-file $(NATIVE_MESON) -Denable_asm=true -Ddefault_library=static -Dtrim_dsp=false
 	ninja -C build-native-nasm
 
 bench: dav1d.csv
