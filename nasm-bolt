@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# NASM Proxy Wrapper with automatic llvm-bolt-regres rewriting
+set -e
+
+# Path to the real system NASM executable
+REAL_NASM="$HOME/code/NASM/nasm/nasm"
+
+# Path to llvm-bolt-regres tool
+BOLT_REGRES="$HOME/code/llvm-project-bolt-experiment/build/bin/llvm-bolt-regres"
+
+# 1. Run real NASM with all passed arguments
+"$REAL_NASM" "$@"
+EXIT_CODE=$?
+
+# If NASM failed or was run for version/help checks, exit immediately
+if [ $EXIT_CODE -ne 0 ]; then
+  exit $EXIT_CODE
+fi
+
+# 2. Extract the output object file path (-o <file> or -o<file>)
+OUTPUT_OBJ=""
+args=("$@")
+for ((i=0; i<${#args[@]}; i++)); do
+  arg="${args[$i]}"
+  if [[ "$arg" == "-o" ]]; then
+    OUTPUT_OBJ="${args[$((i+1))]}"
+    break
+  elif [[ "$arg" == -o* ]]; then
+    OUTPUT_OBJ="${arg#-o}"
+    break
+  fi
+done
+
+# 3. If an object file was created, rewrite it in-place via llvm-bolt-regres
+if [ -n "$OUTPUT_OBJ" ] && [ -f "$OUTPUT_OBJ" ] && [ -x "$BOLT_REGRES" ]; then
+  TEMP_OBJ="${OUTPUT_OBJ}.tmp_rewritten.o"
+
+  # Suppress stdout/stderr so CMake feature checks are not broken by log output
+  if "$BOLT_REGRES" -o "$TEMP_OBJ" --print-diff "$OUTPUT_OBJ" >/dev/null 2>&1; then
+    if [ -f "$TEMP_OBJ" ]; then
+      mv "$OUTPUT_OBJ" "$OUTPUT_OBJ.orig"
+      mv "$TEMP_OBJ" "$OUTPUT_OBJ"
+    fi
+  fi
+fi
+
+exit $EXIT_CODE
